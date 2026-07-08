@@ -1,5 +1,7 @@
+import DesignSystemPage from "./features/dev/pages/DesignSystemPage";
+
 function App() {
-  return <h1>TaskFlow</h1>;
+  return <DesignSystemPage />;
 }
 
 export default App;
