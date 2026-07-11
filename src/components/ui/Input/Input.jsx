@@ -5,28 +5,26 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 function Input({
   label,
   type = "text",
-  placeholder = "",
-  value,
-  onChange,
   error,
   helperText,
+  leftIcon,
+  rightIcon,
   required = false,
   disabled = false,
   fullWidth = true,
-  leftIcon,
-  rightIcon,
   showPasswordToggle = true,
   className = "",
+  id,
   ...props
 }) {
-  const inputId = useId();
+  const generatedId = useId();
+  const inputId = id || generatedId;
+
   const [showPassword, setShowPassword] = useState(false);
 
   const inputType =
-    type === "password"
-      ? showPassword
-        ? "text"
-        : "password"
+    type === "password" && showPassword
+      ? "text"
       : type;
 
   return (
@@ -38,26 +36,29 @@ function Input({
           className="mb-2 block text-sm font-medium text-slate-700"
         >
           {label}
+
           {required && (
             <span className="ml-1 text-red-500">*</span>
           )}
         </label>
       )}
 
-      {/* Input Container */}
+      {/* Input Wrapper */}
       <div
         className={clsx(
-          "flex h-11 items-center rounded-lg border bg-white px-3 transition-all duration-200",
+          "flex h-12 items-center rounded-xl border bg-white px-4 transition-all duration-200",
+
           error
             ? "border-red-500 focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-200"
             : "border-slate-300 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-200",
+
           disabled &&
-            "cursor-not-allowed bg-slate-100 opacity-70"
+            "cursor-not-allowed bg-slate-50 opacity-70"
         )}
       >
         {/* Left Icon */}
         {leftIcon && (
-          <span className="mr-2 text-slate-400">
+          <span className="mr-3 text-slate-500">
             {leftIcon}
           </span>
         )}
@@ -66,9 +67,6 @@ function Input({
         <input
           id={inputId}
           type={inputType}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
           disabled={disabled}
           aria-invalid={!!error}
           aria-describedby={
@@ -79,7 +77,7 @@ function Input({
               : undefined
           }
           className={clsx(
-            "w-full bg-transparent text-slate-800 placeholder:text-slate-400 outline-none",
+            "w-full bg-transparent text-slate-800 placeholder:text-slate-500 outline-none",
             disabled && "cursor-not-allowed",
             className
           )}
@@ -94,7 +92,7 @@ function Input({
             onClick={() =>
               setShowPassword((prev) => !prev)
             }
-            className="ml-2 text-slate-500 transition hover:text-slate-700"
+            className="ml-3 text-slate-500 transition hover:text-slate-700"
             aria-label={
               showPassword
                 ? "Hide password"
@@ -109,18 +107,18 @@ function Input({
           </button>
         ) : (
           rightIcon && (
-            <span className="ml-2 text-slate-400">
+            <span className="ml-3 text-slate-500">
               {rightIcon}
             </span>
           )
         )}
       </div>
 
-      {/* Error */}
+      {/* Helper/Error */}
       {error ? (
         <p
           id={`${inputId}-error`}
-          className="mt-1 text-sm text-red-500"
+          className="mt-2 text-sm text-red-500"
         >
           {error}
         </p>
@@ -128,7 +126,7 @@ function Input({
         helperText && (
           <p
             id={`${inputId}-helper`}
-            className="mt-1 text-sm text-slate-500"
+            className="mt-2 text-sm text-slate-500"
           >
             {helperText}
           </p>
